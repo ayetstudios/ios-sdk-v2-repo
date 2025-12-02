@@ -69,7 +69,7 @@ public class AyetSDK {
         Logger.d(AyetSDK.TAG, "Surveywall base URL set to \(url)")
     }
     
-    public func `init`(placementId: Int, externalIdentifier: String) {
+    public func initialize(placementId: Int, externalIdentifier: String) {
         WebHelper.ensureUserAgent()
         self.placementId = placementId
         self.externalIdentifier = externalIdentifier
