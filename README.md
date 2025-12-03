@@ -5,7 +5,7 @@ The official iOS SDK for integrating Ayet into your iOS application.
 ## Requirements
 
 - iOS 13.0+
-- Swift 5.0+
+- Swift 6.0+
 
 ## Documentation
 
