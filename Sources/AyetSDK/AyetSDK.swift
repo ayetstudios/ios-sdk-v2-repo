@@ -49,6 +49,10 @@ public class AyetSDK {
         Logger.setDebugEnabled(enabled)
         Logger.d(AyetSDK.TAG, "Debug mode set to \(enabled)")
     }
+
+    public nonisolated func setLogHandler(_ handler: LogHandler?) {
+        Logger.setLogHandler(handler)
+    }
     
     public func setBaseUrl(_ url: String) {
         HttpHelper.setBaseUrl(url)
