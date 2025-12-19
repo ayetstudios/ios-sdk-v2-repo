@@ -206,16 +206,19 @@ extension WebViewController: WKUIDelegate {
     
     private func shouldOpenInSystemBrowser(url: URL) -> Bool {
         guard let currentHost = self.url.host else { return false }
-        let currentUrl = self.url
-        
+
         if isRewardStatusUrl(url: url) {
             return false
         }
-        
+
+        if isRecaptchaUrl(url: url) {
+            return false
+        }
+
         if let urlHost = url.host, urlHost != currentHost {
             return true
         }
-        
+
         switch url.scheme?.lowercased() {
         case "market", "play", "itms", "itms-apps":
             return true
@@ -226,8 +229,13 @@ extension WebViewController: WKUIDelegate {
         default:
             break
         }
-        
+
         return false
+    }
+
+    private func isRecaptchaUrl(url: URL) -> Bool {
+        guard let host = url.host?.lowercased() else { return false }
+        return host.hasSuffix("google.com") && url.path.contains("recaptcha")
     }
     
     private func isRewardStatusUrl(url: URL) -> Bool {
