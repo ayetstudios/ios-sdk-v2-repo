@@ -482,6 +482,22 @@ public class AyetSDK {
         urlBuilder += "&external_identifier=\(external)"
         urlBuilder += "&iosSdk=true"
         
+        if let custom1 = trackingCustom1 {
+            urlBuilder += "&custom_1=\(custom1)"
+        }
+        if let custom2 = trackingCustom2 {
+            urlBuilder += "&custom_2=\(custom2)"
+        }
+        if let custom3 = trackingCustom3 {
+            urlBuilder += "&custom_3=\(custom3)"
+        }
+        if let custom4 = trackingCustom4 {
+            urlBuilder += "&custom_4=\(custom4)"
+        }
+        if let custom5 = trackingCustom5 {
+            urlBuilder += "&custom_5=\(custom5)"
+        }
+        
         Logger.d(AyetSDK.TAG, "showSurveywall url: \(urlBuilder)")
         
         guard let url = URL(string: urlBuilder) else {
