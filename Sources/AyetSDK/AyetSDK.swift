@@ -352,6 +352,32 @@ public class AyetSDK {
         await launchSurveywall(adSlotId: matched.id)
     }
     
+    private static let trackingParamAllowed = CharacterSet(
+        charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"
+    )
+
+    private func encodeParam(_ value: String) -> String {
+        value.addingPercentEncoding(withAllowedCharacters: AyetSDK.trackingParamAllowed) ?? value
+    }
+
+    private func appendTrackingCustoms(to urlBuilder: inout String) {
+        if let custom1 = trackingCustom1 {
+            urlBuilder += "&custom_1=\(encodeParam(custom1))"
+        }
+        if let custom2 = trackingCustom2 {
+            urlBuilder += "&custom_2=\(encodeParam(custom2))"
+        }
+        if let custom3 = trackingCustom3 {
+            urlBuilder += "&custom_3=\(encodeParam(custom3))"
+        }
+        if let custom4 = trackingCustom4 {
+            urlBuilder += "&custom_4=\(encodeParam(custom4))"
+        }
+        if let custom5 = trackingCustom5 {
+            urlBuilder += "&custom_5=\(encodeParam(custom5))"
+        }
+    }
+
     private func launchOfferwall(adSlotId: Int) async {
         guard let external = externalIdentifier, !external.isEmpty else {
             Logger.e(AyetSDK.TAG, "showOfferwall: externalIdentifier missing")
@@ -360,24 +386,9 @@ public class AyetSDK {
         
         var urlBuilder = offerwallBaseUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         urlBuilder += "/offers?adSlot=\(adSlotId)"
-        urlBuilder += "&external_identifier=\(external)"
+        urlBuilder += "&external_identifier=\(encodeParam(external))"
         urlBuilder += "&iosSdk=true"
-    
-        if let custom1 = trackingCustom1 {
-            urlBuilder += "&custom_1=\(custom1)"
-        }
-        if let custom2 = trackingCustom2 {
-            urlBuilder += "&custom_2=\(custom2)"
-        }
-        if let custom3 = trackingCustom3 {
-            urlBuilder += "&custom_3=\(custom3)"
-        }
-        if let custom4 = trackingCustom4 {
-            urlBuilder += "&custom_4=\(custom4)"
-        }
-        if let custom5 = trackingCustom5 {
-            urlBuilder += "&custom_5=\(custom5)"
-        }
+        appendTrackingCustoms(to: &urlBuilder)
         
         Logger.d(AyetSDK.TAG, "showOfferwall url: \(urlBuilder)")
         
@@ -405,7 +416,7 @@ public class AyetSDK {
         }
         
         var urlBuilder = rewardStatusBaseUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-        urlBuilder += "/offers?externalIdentifier=\(external.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? external)"
+        urlBuilder += "/offers?externalIdentifier=\(encodeParam(external))"
         urlBuilder += "&placementId=\(placement)"
         urlBuilder += "&iosSdk=true"
         
@@ -479,24 +490,9 @@ public class AyetSDK {
         
         var urlBuilder = surveywallBaseUrl.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         urlBuilder += "/surveys?adSlot=\(adSlotId)"
-        urlBuilder += "&external_identifier=\(external)"
+        urlBuilder += "&external_identifier=\(encodeParam(external))"
         urlBuilder += "&iosSdk=true"
-        
-        if let custom1 = trackingCustom1 {
-            urlBuilder += "&custom_1=\(custom1)"
-        }
-        if let custom2 = trackingCustom2 {
-            urlBuilder += "&custom_2=\(custom2)"
-        }
-        if let custom3 = trackingCustom3 {
-            urlBuilder += "&custom_3=\(custom3)"
-        }
-        if let custom4 = trackingCustom4 {
-            urlBuilder += "&custom_4=\(custom4)"
-        }
-        if let custom5 = trackingCustom5 {
-            urlBuilder += "&custom_5=\(custom5)"
-        }
+        appendTrackingCustoms(to: &urlBuilder)
         
         Logger.d(AyetSDK.TAG, "showSurveywall url: \(urlBuilder)")
         
